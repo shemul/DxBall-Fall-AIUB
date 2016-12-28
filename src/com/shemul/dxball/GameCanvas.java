@@ -1,18 +1,23 @@
 package com.shemul.dxball;
 
+import android.R.bool;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
-
 import java.util.ArrayList;
+
+
 
 class GameCanvas extends View{
     int _count = 0;
     int _level;
-    public static int _life = 2;
+    public static int _life = 1;
     public static boolean _gameOver;
     float _brickX =0, _brickY =0;
     static int _score =0;
@@ -25,7 +30,7 @@ class GameCanvas extends View{
     boolean _gameStart = true;
     ArrayList<Bricks> _bricks =new ArrayList<Bricks>();
     Stage _stage = new Stage();
-
+    boolean flag = false;
     public GameCanvas(Context context) {
         super(context);
         _paint =new Paint();
@@ -64,6 +69,12 @@ class GameCanvas extends View{
                         _count +=1;
                     }
                 }
+                if(flag) {
+                	_createGame = true;
+                	_life = 1 ;
+                	_level = 1;
+                	flag = false;
+                }
 				return true;
 			}
 
@@ -89,10 +100,10 @@ class GameCanvas extends View{
             _ball.nextPos(canvas, _bar, _paint);
         }
         if(_count <= 1){
-            _paint.setColor(Color.BLACK);
-            _paint.setTextSize(50);
+            _paint.setColor(Color.parseColor("#3F51B5"));
+            _paint.setTextSize(100);
             _paint.setFakeBoldText(true);
-            canvas.drawText("Move Bar And Tap to Start",canvas.getWidth()/2-canvas.getWidth()/2+80,canvas.getHeight()/2+canvas.getHeight()/8, _paint);
+            canvas.drawText("TAP TO START",canvas.getWidth()/2-350,canvas.getHeight()/2+100, _paint);
         }
 
         this._canvas = canvas;
@@ -102,6 +113,7 @@ class GameCanvas extends View{
 
         if (_createGame) {
             _createGame = false;
+            
             if (_level == 1) {
                 _stage.stage_level_one(canvas, _brickX, _brickY, _bricks);
             }
@@ -113,6 +125,10 @@ class GameCanvas extends View{
         }
 
         for(int i = 0; i< _bricks.size(); i++){
+        	
+        	Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.br);
+
+        	  
             canvas.drawRect(_bricks.get(i).getLeft(), _bricks.get(i).getTop(), _bricks.get(i).getRight(), _bricks.get(i).getBottom(), _bricks.get(i).getPaint());
         }
 
@@ -120,7 +136,7 @@ class GameCanvas extends View{
 
         if(_bricks.size() == 0){
             _count = -1;
-            _level += 1;
+            _level += 5;
             _createGame = true;
             _gameStart = true;
         }
@@ -132,9 +148,8 @@ class GameCanvas extends View{
                 _paint.setColor(Color.WHITE);
                 _paint.setTextSize(50);
                 _paint.setFakeBoldText(true);
-                canvas.drawText("Level 2",canvas.getWidth()/2-canvas.getWidth()/9,canvas.getHeight()/2, _paint);
-                canvas.drawText("Your Score: "+ _score,canvas.getWidth()/2-canvas.getWidth()/5,canvas.getHeight()/2+134, _paint);
-                canvas.drawText("Tap To Next Level",canvas.getWidth()/2-canvas.getWidth()/3+50,canvas.getHeight()/2+300, _paint);
+                canvas.drawText("Your Score# "+ _score,20,40, _paint);
+
         }
 
         if(_ball.isballAvailable() == false){
@@ -146,20 +161,21 @@ class GameCanvas extends View{
 
         _paint.setTextSize(30);
         _paint.setFakeBoldText(true);
-        canvas.drawText("Life: " + _life, 20, 40, _paint);
-        canvas.drawText("Score: " + _score, canvas.getWidth() - 150 , 40, _paint);
-        canvas.drawText("LEVEL " + _level, canvas.getWidth() / 2 - 60, 40, _paint);
+        canvas.drawText("Score# " + _score, 20,40, _paint);
 
         if(_life == 0 || _gameOver){
-            _paint.setColor(Color.BLACK);
+            _paint.setColor(Color.parseColor("#607D8B"));
             canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), _paint);
-            _paint.setColor(Color.WHITE);
-            _paint.setTextSize(80);
+            _paint.setColor(Color.YELLOW);
+            _paint.setTextSize(100);
             _paint.setFakeBoldText(true);
-            canvas.drawText("Game Over",canvas.getWidth()/2-canvas.getWidth()/4,canvas.getHeight()/2, _paint);
-            canvas.drawText("Your Score: "+ _score,canvas.getWidth()/2-canvas.getWidth()/3,canvas.getHeight()/2+134, _paint);
+            canvas.drawText("Game Over",canvas.getWidth()/2-200,canvas.getHeight()/2+100, _paint);
+            _paint.setTextSize(50);
+            canvas.drawText("Your score was " + _score ,canvas.getWidth()/2-200,canvas.getHeight()/2-150, _paint);
+            flag = true;
             _gameOver = false;
             _level = 0;
+            
         }
 
         invalidate();

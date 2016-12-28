@@ -1,6 +1,7 @@
 package com.shemul.dxball;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 
@@ -16,9 +17,9 @@ public class Bar {
 
     public void drawBar(Canvas canvas, Paint paint) {
         barRight = barLeft+(canvas.getWidth()/3);
+        paint.setColor(Color.parseColor("#607D8B"));
         canvas.drawRect(barLeft, barTop, barRight, barBottom, paint);
-        canvas.drawCircle(barLeft-4, barBottom -20, 20, paint);
-        canvas.drawCircle(barRight+4, barBottom -20, 20, paint);
+       
     }
 
     public float getBarLeft(){

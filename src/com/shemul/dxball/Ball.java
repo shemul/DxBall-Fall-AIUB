@@ -1,12 +1,13 @@
 package com.shemul.dxball;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import java.util.ArrayList;
 
 public class Ball {
     private boolean _ballAvailable = true;
-    private float x,y,radius=20;
+    private float x,y,radius=50;
     private float xStep = 5;
     private float yStep = -5;
 
@@ -55,6 +56,7 @@ public class Ball {
     }
 
     public void drawBall(Canvas canvas, Paint paint){
+    	paint.setColor(Color.parseColor("#E91E63"));
         canvas.drawCircle(x,y,radius,paint);
     }
 
@@ -83,12 +85,12 @@ public class Ball {
         for(int i=0;i<br.size();i++) {
             if (((ball.getY() - ball.getRadius()) <= br.get(i).getBottom()) && ((ball.getY() + ball.getRadius()) >= br.get(i).getTop()) && ((ball.getX()) >= br.get(i).getLeft()) && ((ball.getX()) <= br.get(i).getRight())) {
                 br.remove(i);
-                GameCanvas._score +=10;
+                GameCanvas._score +=100;
                 ball.setyStep(-(ball.getyStep()));
             }
             else if(((ball.getY()) <= br.get(i).getBottom()) && ((ball.getY()) >= br.get(i).getTop()) && ((ball.getX() + ball.getRadius()) >= br.get(i).getLeft()) && ((ball.getX() - ball.getRadius()) <= br.get(i).getRight())) {
                 br.remove(i);
-                GameCanvas._score +=10;
+                GameCanvas._score +=100;
                 ball.setxStep(-(ball.getxStep()));
             }
         }

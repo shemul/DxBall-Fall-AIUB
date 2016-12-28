@@ -13,12 +13,12 @@ public class Stage {
         for (int i = 0; i < 10; i++) {
             if (brickX >= canvas.getWidth() - (canvas.getWidth() / 7) * 2) {
                 brickX = canvas.getWidth() / 7;
-                brickY += canvas.getHeight() / 6;
+                brickY += canvas.getHeight() / 9;
             }
             if (i % 2 == 0)
-                col = Color.BLACK;
+                col = Color.parseColor("#795548");
             else
-                col = Color.DKGRAY;
+                col = Color.parseColor("#795548");
             bricks.add(new Bricks(brickX, brickY, brickX + canvas.getWidth() / 7, brickY + canvas.getHeight() / 10, col));
             brickX += canvas.getWidth() / 7;
         }
